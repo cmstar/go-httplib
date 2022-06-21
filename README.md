@@ -1,9 +1,10 @@
 # httplib - A library for HTTP requests
 
 [![GoDoc](https://pkg.go.dev/badge/github.com/cmstar/go-httplib)](https://pkg.go.dev/github.com/cmstar/go-httplib)
-[![Go](https://github.com/cmstar/go-httplib/workflows/Go/badge.svg)](https://github.com/cmstar/go-httplib/actions?query=workflow%3AGo)
+[![Build](https://github.com/cmstar/go-httplib/workflows/Go/badge.svg)](https://github.com/cmstar/go-httplib/actions?query=workflow%3AGo)
 [![codecov](https://codecov.io/gh/cmstar/go-httplib/branch/master/graph/badge.svg)](https://codecov.io/gh/cmstar/go-httplib)
 [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](https://opensource.org/licenses/MIT)
+[![GoVersion](https://img.shields.io/github/go-mod/go-version/cmstar/go-httplib)](https://github.com/cmstar/go-httplib/blob/main/go.mod)
 
 ## Install
 
