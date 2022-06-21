@@ -165,7 +165,7 @@ func (x *RequestBuilder) SetBinaryBody(body []byte) *RequestBuilder {
 
 // SetBinaryBody set a io.Reader as the request body. If another body was set, it will be replaced.
 //
-// The reader will be closed if it implements io.ReaderCloser.
+// The reader will be closed if it implements io.ReadCloser.
 //
 func (x *RequestBuilder) SetReaderBody(reader io.Reader) *RequestBuilder {
 	x.clearForm()
@@ -175,11 +175,12 @@ func (x *RequestBuilder) SetReaderBody(reader io.Reader) *RequestBuilder {
 
 // Build returns a instance of http.Request, which includes the options set in other methods.
 //
-// If the body is string/[]byte, Build() can be called multiple times.
+// If the body is string/[]byte or one of one of strings.Reader/bytes.Buffer/bytes.Reader,
+// Build() can be called multiple times.
 //
-// If the body is io.Reader, once the request is performed, the reader reached the end and is not reusable,
-// you can call SetReaderBody() again to setup a new body, or reset the io.Reader manually before next
-// Build() is called.
+// If the body is io.Read and is not one of strings.Reader/bytes.Buffer/bytes.Reader, once the request
+// is performed, the reader reached the end and is not reusable, you can call SetReaderBody() again to
+// setup a new body.
 //
 func (x *RequestBuilder) Build() (*http.Request, error) {
 	uri := x.URL()
