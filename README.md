@@ -5,7 +5,15 @@
 [![codecov](https://codecov.io/gh/cmstar/go-httplib/branch/master/graph/badge.svg)](https://codecov.io/gh/cmstar/go-httplib)
 [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](https://opensource.org/licenses/MIT)
 
-## RequestBuilder
+## Install
+
+```bash
+go get -u github.com/cmstar/go-httplib@latest
+```
+
+## Quick start
+
+### RequestBuilder
 
 `RequestBuilder` is used to simply build HTTP request.
 
@@ -20,17 +28,27 @@ b := httplib.NewBuilder("POST", "http://example.org").
     WithForm("f1", "vf1").
     WithForm("f2", "vf2")
 
-// Do request.
+// Do request. This will send a request like this:
+// ====
+// POST http://example.org?q2=v2&q3=3 HTTP/1.1
+// Host: example.org
+// X-Custom-Value: 112233
+// <Some other headers such as User-Agent ...>
+//
+// f1=vf1&f2=vf2
+// ====
 resp, err := b.ReadString()
 
 // Upload a file.
 file, _ := os.Open("/some/file")
+defer file.Close()
+
 b = httplib.NewBuilder("PUT", "http://example.org")
 b.SetReaderBody(file)
 resp := b.MustDo()
 ```
 
-## Shortcuts
+### Shortcuts
 
 Send request directly.
 
