@@ -18,10 +18,7 @@ type RequestBuilder struct {
 	query  url.Values
 	header http.Header
 
-	// Lazy init.
-	form url.Values
-
-	// Can be string/[]byte/io.Reader .
+	// Can be string/[]byte/io.Reader/url.Values .
 	body any
 }
 
@@ -65,7 +62,6 @@ func (x *RequestBuilder) URL() string {
 // WithQuery appends a query string to the URL.
 //
 // If the given value is not a string, it will be converted to a string.
-//
 func (x *RequestBuilder) WithQuery(name string, value any) *RequestBuilder {
 	s := x.toString(value)
 	x.query.Add(name, s)
@@ -75,7 +71,6 @@ func (x *RequestBuilder) WithQuery(name string, value any) *RequestBuilder {
 // WithQuery appends a group of query strings to the URL.
 //
 // If a value in the map is not a string, it will be converted to a string.
-//
 func (x *RequestBuilder) WithQueries(values map[string]any) *RequestBuilder {
 	if values == nil {
 		return x
@@ -93,12 +88,11 @@ func (x *RequestBuilder) WithQueries(values map[string]any) *RequestBuilder {
 //
 // If the given value is not a string, it will be converted to a string.
 //
-// Any body which has been set will be dropped.
-//
+// If the current body set is not a form, it will be replaced.
 func (x *RequestBuilder) WithForm(name string, value any) *RequestBuilder {
-	x.initForm()
+	q := x.ensureForm()
 	s := x.toString(value)
-	x.form.Add(name, s)
+	q.Add(name, s)
 	return x
 }
 
@@ -107,10 +101,9 @@ func (x *RequestBuilder) WithForm(name string, value any) *RequestBuilder {
 //
 // If a value in the map is not a string, it will be converted to a string.
 //
-// Any body which has been set will be dropped.
-//
+// If the current body set is not a form, it will be replaced.
 func (x *RequestBuilder) WithForms(values map[string]any) *RequestBuilder {
-	x.initForm()
+	q := x.ensureForm()
 
 	if values == nil {
 		return x
@@ -118,7 +111,7 @@ func (x *RequestBuilder) WithForms(values map[string]any) *RequestBuilder {
 
 	for k, v := range values {
 		s := x.toString(v)
-		x.form.Add(k, s)
+		q.Add(k, s)
 	}
 	return x
 }
@@ -126,7 +119,6 @@ func (x *RequestBuilder) WithForms(values map[string]any) *RequestBuilder {
 // WithHeader appends a HTTP header. The name will be converted to the Header-Naming-Style.
 //
 // If the given value is not a string, it will be converted to a string.
-//
 func (x *RequestBuilder) WithHeader(name string, value any) *RequestBuilder {
 	s := x.toString(value)
 	x.header.Add(name, s)
@@ -136,7 +128,6 @@ func (x *RequestBuilder) WithHeader(name string, value any) *RequestBuilder {
 // WithHeader appends a group of HTTP headers. The name will be converted to the Header-Naming-Style.
 //
 // If a value in the map is not a string, it will be converted to a string.
-//
 func (x *RequestBuilder) WithHeaders(values map[string]any) *RequestBuilder {
 	if values == nil {
 		return x
@@ -151,14 +142,12 @@ func (x *RequestBuilder) WithHeaders(values map[string]any) *RequestBuilder {
 
 // SetStringBody set a string as the request body. If another body was set, it will be replaced.
 func (x *RequestBuilder) SetStringBody(body string) *RequestBuilder {
-	x.clearForm()
 	x.body = body
 	return x
 }
 
 // SetBinaryBody set a slice of bytes as the request body. If another body was set, it will be replaced.
 func (x *RequestBuilder) SetBinaryBody(body []byte) *RequestBuilder {
-	x.clearForm()
 	x.body = body
 	return x
 }
@@ -166,9 +155,7 @@ func (x *RequestBuilder) SetBinaryBody(body []byte) *RequestBuilder {
 // SetBinaryBody set a io.Reader as the request body. If another body was set, it will be replaced.
 //
 // The reader will be closed if it implements io.ReadCloser.
-//
 func (x *RequestBuilder) SetReaderBody(reader io.Reader) *RequestBuilder {
-	x.clearForm()
 	x.body = reader
 	return x
 }
@@ -181,7 +168,6 @@ func (x *RequestBuilder) SetReaderBody(reader io.Reader) *RequestBuilder {
 // If the body is io.Read and is not one of strings.Reader/bytes.Buffer/bytes.Reader, once the request
 // is performed, the reader reached the end and is not reusable, you can call SetReaderBody() again to
 // setup a new body.
-//
 func (x *RequestBuilder) Build() (*http.Request, error) {
 	uri := x.URL()
 	body := x.buildBody()
@@ -213,7 +199,6 @@ func (x *RequestBuilder) Do() (*http.Response, error) {
 // it returns the whole response body as a slice of byte; otherwise returns an error.
 //
 // If you need to get the body when the status code is not 200 OK, call Do().
-//
 func (x *RequestBuilder) ReadBinary() ([]byte, error) {
 	res, err := x.Do()
 	if err != nil {
@@ -231,7 +216,6 @@ func (x *RequestBuilder) ReadBinary() ([]byte, error) {
 // it returns the whole response body as a string; otherwise returns an error.
 //
 // If you need to get the body when the status code is not 200 OK, call Do().
-//
 func (x *RequestBuilder) ReadString() (string, error) {
 	res, err := x.ReadBinary()
 	return string(res), err
@@ -265,11 +249,6 @@ func (x *RequestBuilder) MustReadString() string {
 }
 
 func (x *RequestBuilder) buildBody() io.Reader {
-	if len(x.form) > 0 {
-		v := x.form.Encode()
-		return strings.NewReader(v)
-	}
-
 	if x.body != nil {
 		switch v := x.body.(type) {
 		case string:
@@ -280,6 +259,10 @@ func (x *RequestBuilder) buildBody() io.Reader {
 
 		case io.Reader:
 			return v
+
+		case url.Values:
+			q := v.Encode()
+			return strings.NewReader(q)
 		}
 	}
 
@@ -301,16 +284,14 @@ func (x *RequestBuilder) toString(v any) string {
 	}
 }
 
-func (x *RequestBuilder) clearForm() {
-	x.form = nil
-}
+func (x *RequestBuilder) ensureForm() url.Values {
+	x.header.Set("Content-Type", "application/x-www-form-urlencoded")
 
-func (x *RequestBuilder) initForm() {
-	if x.form != nil {
-		return
+	if values, ok := x.body.(url.Values); ok {
+		return values
 	}
 
-	x.body = nil
-	x.form = make(url.Values)
-	x.header.Set("Content-Type", "application/x-www-form-urlencoded")
+	values := make(url.Values)
+	x.body = values
+	return values
 }
