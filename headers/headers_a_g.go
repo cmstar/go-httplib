@@ -5,6 +5,181 @@ package headers
 
 /* From letter A to G. */
 
+// Accept-CH
+//
+// Requests HTTP Client Hints.
+//
+// Class: Response field, Standard, Experimental
+//
+// Example:
+//
+//	Accept-CH: UA, Platform
+//
+// Standard:
+//   - [RFC 8942]
+//
+// [RFC 8942]: https://datatracker.ietf.org/doc/html/rfc8942
+const AcceptCH = "Accept-CH"
+
+// Access-Control-Allow-Origin
+//
+// Specifying which web sites can participate in [cross-origin resource sharing].
+//
+// Class: Response field, Standard, Permanent
+//
+// Example:
+//
+//	Access-Control-Allow-Origin: *
+//
+// Standard:
+//   - [RFC 7480]
+//
+// [cross-origin resource sharing]: https://en.wikipedia.org/wiki/Cross-origin_resource_sharing
+// [RFC 7480]: https://datatracker.ietf.org/doc/html/rfc7480
+const AccessControlAllowOrigin = "Access-Control-Allow-Origin"
+
+// Access-Control-Allow-Credentials
+//
+// Specifying which web sites can participate in [cross-origin resource sharing].
+//
+// Class: Response field, Standard
+//
+// Standard:
+//   - [RFC 7480]
+//
+// [cross-origin resource sharing]: https://en.wikipedia.org/wiki/Cross-origin_resource_sharing
+// [RFC 7480]: https://datatracker.ietf.org/doc/html/rfc7480
+const AccessControlAllowCredentials = "Access-Control-Allow-Credentials"
+
+// Access-Control-Expose-Headers
+//
+// Specifying which web sites can participate in [cross-origin resource sharing].
+//
+// Class: Response field, Standard
+//
+// Standard:
+//   - [RFC 7480]
+//
+// [cross-origin resource sharing]: https://en.wikipedia.org/wiki/Cross-origin_resource_sharing
+// [RFC 7480]: https://datatracker.ietf.org/doc/html/rfc7480
+const AccessControlExposeHeaders = "Access-Control-Expose-Headers"
+
+// Access-Control-Max-Age
+//
+// Specifying which web sites can participate in [cross-origin resource sharing].
+//
+// Class: Response field, Standard
+//
+// Standard:
+//   - [RFC 7480]
+//
+// [cross-origin resource sharing]: https://en.wikipedia.org/wiki/Cross-origin_resource_sharing
+// [RFC 7480]: https://datatracker.ietf.org/doc/html/rfc7480
+const AccessControlMaxAge = "Access-Control-Max-Age"
+
+// Access-Control-Allow-Methods
+//
+// Specifying which web sites can participate in [cross-origin resource sharing].
+//
+// Class: Response field, Standard
+//
+// Standard:
+//   - [RFC 7480]
+//
+// [cross-origin resource sharing]: https://en.wikipedia.org/wiki/Cross-origin_resource_sharing
+// [RFC 7480]: https://datatracker.ietf.org/doc/html/rfc7480
+const AccessControlAllowMethods = "Access-Control-Allow-Methods"
+
+// Access-Control-Allow-Headers
+//
+// Specifying which web sites can participate in [cross-origin resource sharing].
+//
+// Class: Response field, Standard
+//
+// Standard:
+//   - [RFC 7480]
+//
+// [RFC 7480]: https://datatracker.ietf.org/doc/html/rfc7480
+const AccessControlAllowHeaders = "Access-Control-Allow-Headers"
+
+// Accept-Patch
+//
+// Specifies which patch document formats this server supports.
+//
+// Class: Response field, Standard, Permanent
+//
+// Example:
+//
+//	Accept-Patch: text/example;charset=utf-8
+//
+// Standard:
+//   - [RFC 5789]
+//
+// [RFC 5789]: https://datatracker.ietf.org/doc/html/rfc5789
+const AcceptPatch = "Accept-Patch"
+
+// Accept-Ranges
+//
+// What partial content range types this server supports via byte serving.
+//
+// Class: Response field, Standard, Permanent
+//
+// Example:
+//
+//	Accept-Ranges: bytes
+//
+// Standard:
+//   - [RFC 9110]
+//
+// [RFC 9110]: https://datatracker.ietf.org/doc/html/rfc9110
+const AcceptRanges = "Accept-Ranges"
+
+// Age
+//
+// The age the object has been in a proxy cache in seconds.
+//
+// Class: Response field, Standard, Permanent
+//
+// Example:
+//
+//	Age: 12
+//
+// Standard:
+//   - [RFC 9111]
+//
+// [RFC 9111]: https://datatracker.ietf.org/doc/html/rfc9111
+const Age = "Age"
+
+// Allow
+//
+// Valid methods for a specified resource. To be used for a 405 Method not allowed
+//
+// Class: Response field, Standard, Permanent
+//
+// Example:
+//
+//	Allow: GET, HEAD
+//
+// Standard:
+//   - [RFC 9110]
+//
+// [RFC 9110]: https://datatracker.ietf.org/doc/html/rfc9110
+const Allow = "Allow"
+
+// Alt-Svc
+//
+// A server uses "Alt-Svc" header (meaning Alternative Services) to indicate that its resources can also
+// be accessed at a different network location (host or port) or using a different protocol
+//
+// When using HTTP/2, servers should instead send an ALTSVC frame.
+//
+// Class: Response field, Standard, Permanent
+//
+// Example:
+//
+//	Alt-Svc: http/1.1="http2.example.com:8001"; ma=7200
+const AltSvc = "Alt-Svc"
+
 // A-IM
 //
 // Acceptable instance-manipulations for the request.
@@ -144,13 +319,16 @@ const Authorization = "Authorization"
 
 // Cache-Control
 //
-// Used to specify directives that must be obeyed by all caching mechanisms along the request-response chain.
+// Request: Used to specify directives that must be obeyed by all caching mechanisms along the request-response chain.
 //
-// Class: Request field, Standard, Permanent
+// Response: Tells all caching mechanisms from server to client whether they may cache this object. Measured in seconds.
+//
+// Class: Request field, Response field, Standard, Permanent
 //
 // Example:
 //
 //	Cache-Control: no-cache
+//	Cache-Control: max-age=3600
 //
 // Standard:
 //   - [RFC 9111]
@@ -164,7 +342,7 @@ const CacheControl = "Cache-Control"
 //
 // Must not be used with HTTP/2.
 //
-// Class: Request field, Standard, Permanent
+// Class: Request field, Response field, Standard, Permanent
 //
 // Example:
 //
@@ -181,7 +359,7 @@ const Connection = "Connection"
 //
 // The type of encoding used on the data. See [HTTP compression].
 //
-// Class: Request field, Standard, Permanent
+// Class: Request field, Response field, Standard, Permanent
 //
 // Example:
 //
@@ -194,27 +372,11 @@ const Connection = "Connection"
 // [RFC 9110]: https://datatracker.ietf.org/doc/html/rfc9110
 const ContentEncoding = "Content-Encoding"
 
-// Content-Length
-//
-// The length of the request body in octets (8-bit bytes).
-//
-// Class: Request field, Standard, Permanent
-//
-// Example:
-//
-//	Content-Length: 348
-//
-// Standard:
-//   - [RFC 9110]
-//
-// [RFC 9110]: https://datatracker.ietf.org/doc/html/rfc9110
-const ContentLength = "Content-Length"
-
 // Content-MD5
 //
-// A Base64-encoded binary MD5 sum of the content of the request body.
+// A Base64-encoded binary MD5 sum of the content of the body.
 //
-// Class: Request field, Standard, Obsolete
+// Class: Request field, Response field, Standard, Obsolete
 //
 // Example:
 //
@@ -232,9 +394,11 @@ const ContentMD5 = "Content-MD5"
 
 // Content-Type
 //
-// The Media type of the body of the request (used with POST and PUT requests).
+// Request: The Media type (MIME) of the body of the request (used with POST and PUT requests).
 //
-// Class: Request field, Standard, Permanent
+// Response: The Media type of the body.
+//
+// Class: Request field, Response field, Standard, Permanent
 //
 // Example:
 //
@@ -250,7 +414,7 @@ const ContentType = "Content-Type"
 //
 // An HTTP cookie previously sent by the server with Set-Cookie.
 //
-// Class: Request field, Standard, Permanent: standard
+// Class: Request field, Standard, Permanent
 //
 // Example:
 //
@@ -263,6 +427,86 @@ const ContentType = "Content-Type"
 // [RFC 2965]: https://datatracker.ietf.org/doc/html/rfc2965
 // [RFC 6265]: https://datatracker.ietf.org/doc/html/rfc6265
 const Cookie = "Cookie"
+
+// Content-Disposition
+//
+// An opportunity to raise a "File Download" dialogue box for a known MIME type with binary format or suggest
+// a filename for dynamic content. Quotes are necessary with special characters.
+//
+// Class: Response field, Standard, Permanent
+//
+// Example:
+//
+//	Content-Disposition: attachment; filename="name.ext"
+//
+// Standard:
+//   - [RFC 2616]
+//   - [RFC 4021]
+//   - [RFC 6266]
+//
+// [RFC 2616]: https://datatracker.ietf.org/doc/html/rfc2616
+// [RFC 4021]: https://datatracker.ietf.org/doc/html/rfc4021
+// [RFC 6266]: https://datatracker.ietf.org/doc/html/rfc6266
+const ContentDisposition = "Content-Disposition"
+
+// Content-Language
+//
+// The natural language or languages of the intended audience for the enclosed content.
+//
+// Class: Response field, Standard, Permanent
+//
+// Example:
+//
+//	Content-Language: da
+//
+// Standard:
+//   - [RFC 9110]
+//
+// [RFC 9110]: https://datatracker.ietf.org/doc/html/rfc9110
+const ContentLanguage = "Content-Language"
+
+// Content-Location
+//
+// An alternate location for the returned data.
+//
+// Class: Response field, Standard, Permanent
+//
+// Example:
+//
+//	Content-Location: /index.htm
+//
+// Standard:
+//   - [RFC 9110]
+//
+// [RFC 9110]: https://datatracker.ietf.org/doc/html/rfc9110
+const ContentLocation = "Content-Location"
+
+// Content-Range
+//
+// Where in a full body message this partial message belongs.
+//
+// Class: Response field, Standard, Permanent
+//
+// Example:
+//
+//	Content-Range: bytes 21010-47021/47022
+//
+// Standard:
+//   - [RFC 9110]
+//
+// [RFC 9110]: https://datatracker.ietf.org/doc/html/rfc9110
+const ContentRange = "Content-Range"
+
+// Content-Security-Policy
+//
+// Content Security Policy definition.
+//
+// Class: Response field, Non-standard
+//
+// Example:
+//
+//	X-WebKit-CSP: default-src 'self'
+const ContentSecurityPolicy = "Content-Security-Policy"
 
 // Correlation-ID
 //
@@ -291,6 +535,22 @@ const CorrelationID = "Correlation-ID"
 //
 // [RFC 9110]: https://datatracker.ietf.org/doc/html/rfc9110
 const Date = "Date"
+
+// Delta-Base
+//
+// Specifies the delta-encoding entity tag of the response.
+//
+// Class: Response field, Standard, Permanent
+//
+// Example:
+//
+//	Delta-Base: "abc"
+//
+// Standard:
+//   - [RFC 3229]
+//
+// [RFC 3229]: https://datatracker.ietf.org/doc/html/rfc3229
+const DeltaBase = "Delta-Base"
 
 // DNT
 //
@@ -322,6 +582,50 @@ const DNT = "DNT"
 //
 // [RFC 9110]: https://datatracker.ietf.org/doc/html/rfc9110
 const Expect = "Expect"
+
+// Expect-CT
+//
+// Notify to prefer to enforce Certificate Transparency.
+//
+// Class: Response field, Non-standard
+//
+// Example:
+//
+//	Expect-CT: max-age=604800, enforce, report-uri="https://example.example/report"
+const ExpectCT = "Expect-CT"
+
+// ETag
+//
+// An identifier for a specific version of a resource, often a message digest.
+//
+// Class: Response field, Standard, Permanent
+//
+// Example:
+//
+//	ETag: "737060cd8c284d8af7ad3082f209582d"
+//
+// Standard:
+//   - [RFC 9110]
+//
+// [RFC 9110]: https://datatracker.ietf.org/doc/html/rfc9110
+const ETag = "ETag"
+
+// Expires
+//
+// Gives the date/time after which the response is considered stale (in "HTTP-date" format as defined by [RFC 9110])
+//
+// Class: Response field, Standard, Permanent
+//
+// Example:
+//
+//	Expires: Thu, 01 Dec 1994 16:00:00 GMT
+//
+// Standard:
+//   - [RFC 9111]
+//
+// [RFC 9110]: https://datatracker.ietf.org/doc/html/rfc9110
+// [RFC 9111]: https://datatracker.ietf.org/doc/html/rfc9111
+const Expires = "Expires"
 
 // Forwarded
 //
@@ -357,7 +661,7 @@ const From = "From"
 
 // Front-End-Https
 //
-// # Non-standard header field used by Microsoft applications and load-balancers
+// Non-standard header field used by Microsoft applications and load-balancers.
 //
 // Class: Request field, Non-standard
 //

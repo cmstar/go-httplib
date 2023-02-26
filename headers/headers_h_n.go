@@ -112,6 +112,38 @@ const IfRange = "If-Range"
 // [RFC 9110]: https://datatracker.ietf.org/doc/html/rfc9110
 const IfUnmodifiedSince = "If-Unmodified-Since"
 
+// IM
+//
+// Instance-manipulations applied to the response.
+//
+// Class: Response field, Standard, Permanent
+//
+// Example:
+//
+//	IM: feed
+//
+// Standard:
+//   - [RFC 3229]
+//
+// [RFC 3229]: https://datatracker.ietf.org/doc/html/rfc3229
+const IM = "IM"
+
+// Last-Modified
+//
+// The last modified date for the requested object (in "HTTP-date" format as defined by [RFC 9110])
+//
+// Class: Response field, Standard, Permanent
+//
+// Example:
+//
+//	Last-Modified: Tue, 15 Nov 1994 12:45:26 GMT
+//
+// Standard:
+//   - [RFC 9110]
+//
+// [RFC 9110]: https://datatracker.ietf.org/doc/html/rfc9110
+const LastModified = "Last-Modified"
+
 // Max-Forwards
 //
 // Limit the number of times the message can be forwarded through proxies or gateways.
@@ -127,3 +159,47 @@ const IfUnmodifiedSince = "If-Unmodified-Since"
 //
 // [RFC 9110]: https://datatracker.ietf.org/doc/html/rfc9110
 const MaxForwards = "Max-Forwards"
+
+// Link
+//
+// Used to express a typed relationship with another resource, where the relation type is defined by [RFC 5988].
+//
+// Class: Response field, Standard, Permanent
+//
+// Example:
+//
+//	Link: </feed>; rel="alternate"
+//
+// Standard:
+//   - [RFC 5988]
+//
+// [RFC 5988]: https://datatracker.ietf.org/doc/html/rfc5988
+const Link = "Link"
+
+// Location
+//
+// Used in redirection, or when a new resource has been created.
+//
+// Class: Response field, Standard, Permanent
+//
+// Example:
+//
+//	Example 1: Location: http://www.w3.org/pub/WWW/People.html
+//	Example 2: Location: /pub/WWW/People.html
+//
+// Standard:
+//   - [RFC 9110]
+//
+// [RFC 9110]: https://datatracker.ietf.org/doc/html/rfc9110
+const Location = "Location"
+
+// NEL
+//
+// Used to configure network request logging.
+//
+// Class: Response field, Non-standard
+//
+// Example:
+//
+//	NEL: {"report_to":"name_of_reporting_group", "max_age":12345, "include_subdomains":false, "success_fraction":0.0, "failure_fraction":1.0}
+const NEL = "NEL"

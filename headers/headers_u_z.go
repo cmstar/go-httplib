@@ -24,7 +24,7 @@ const UserAgent = "User-Agent"
 //
 // Must not be used in HTTP/2.
 //
-// Class: Request field, Standard, Permanent
+// Class: Request field, Response field, Standard, Permanent
 //
 // Example:
 //
@@ -49,11 +49,29 @@ const Upgrade = "Upgrade"
 //	Upgrade-Insecure-Requests: 1
 const UpgradeInsecureRequests = "Upgrade-Insecure-Requests"
 
+// Vary
+//
+// Tells downstream proxies how to match future request headers to decide whether the cached response
+// can be used rather than requesting a fresh one from the origin server.
+//
+// Class: Response field, Standard, Permanent
+//
+// Example:
+//
+//	Example 1: Vary: *
+//	Example 2: Vary: Accept-Language
+//
+// Standard:
+//   - [RFC 9110]
+//
+// [RFC 9110]: https://datatracker.ietf.org/doc/html/rfc9110
+const Vary = "Vary"
+
 // Via
 //
 // Informs the server of proxies through which the request was sent.
 //
-// Class: Request field, Standard, Permanent
+// Class: Request field, Response field, Standard, Permanent
 //
 // Example:
 //
@@ -69,7 +87,7 @@ const Via = "Via"
 //
 // A general warning about possible problems with the entity body.
 //
-// Class: Request field, Standard, Obsolete[21]
+// Class: Request field,Response field,  Standard, Obsolete
 //
 // Example:
 //
@@ -82,6 +100,22 @@ const Via = "Via"
 // [RFC 7234]: https://datatracker.ietf.org/doc/html/rfc7234
 // [RFC 9111]: https://datatracker.ietf.org/doc/html/rfc9111
 const Warning = "Warning"
+
+// WWW-Authenticate
+//
+// Indicates the authentication scheme that should be used to access the requested entity.
+//
+// Class: Response field, Standard, Permanent
+//
+// Example:
+//
+//	WWW-Authenticate: Basic
+//
+// Standard:
+//   - [RFC 9110]
+//
+// [RFC 9110]: https://datatracker.ietf.org/doc/html/rfc9110
+const WWWAuthenticate = "WWW-Authenticate"
 
 // X-Requested-With
 //
@@ -198,7 +232,7 @@ const XCsrfToken = "X-Csrf-Token"
 //
 // Correlates HTTP requests between a client and server.
 //
-// Class: Request field, Non-standard
+// Class: Request field, Response field, Non-standard
 //
 // Example:
 //
@@ -209,9 +243,110 @@ const XRequestID = "X-Request-ID"
 //
 // Correlates HTTP requests between a client and server.
 //
-// Class: Request field, Non-standard
+// Class: Request field, Response field, Non-standard
 //
 // Example:
 //
 //	X-Correlation-ID: f058ebd6-02f7-4d3f-942e-904344e8cde5
 const XCorrelationID = "X-Correlation-ID"
+
+// X-Frame-Options
+//
+// Click-jacking protection:
+//   - deny - no rendering within a frame
+//   - sameorigin - no rendering if origin mismatch
+//   - allow-from - allow from specified location,
+//   - allowall - non-standard, allow from any location
+//
+// Class: Response field, Standard, Obsolete
+//
+// Example:
+//
+//	X-Frame-Options: deny
+const XFrameOptions = "X-Frame-Options"
+
+// X-Content-Security-Policy
+//
+// Class: Response field, Non-standard
+//
+// Example:
+const XContentSecurityPolicy = "X-Content-Security-Policy"
+
+// X-WebKit-CSP
+//
+// Class: Response field, Non-standard
+//
+// Example:
+const XWebKitCSP = "X-WebKit-CSP"
+
+// X-Content-Duration
+//
+// Provide the duration of the audio or video in seconds; only supported by Gecko browsers
+//
+// Class: Response field, Non-standard
+//
+// Example:
+//
+//	X-Content-Duration: 42.666
+const XContentDuration = "X-Content-Duration"
+
+// X-Content-Type-Options
+//
+// The only defined value, "nosniff", prevents Internet Explorer from MIME-sniffing a response away
+// from the declared content-type. This also applies to Google Chrome, when downloading extensions.
+//
+// Class: Response field, Non-standard
+//
+// Example:
+//
+//	X-Content-Type-Options: nosniff
+const XContentTypeOptions = "X-Content-Type-Options"
+
+// X-Powered-By
+//
+// Specifies the technology (e.g. ASP.NET, PHP, JBoss) supporting the web application
+// (version details are often in X-Runtime, X-Version, or X-AspNet-Version).
+//
+// Class: Response field, Non-standard
+//
+// Example:
+//
+//	X-Powered-By: PHP/5.4.0
+const XPoweredBy = "X-Powered-By"
+
+// X-Redirect-By
+//
+// Specifies the component that is responsible for a particular redirect.
+//
+// Class: Response field, Non-standard
+//
+// Example:
+//
+//	X-Redirect-By: WordPress
+//	X-Redirect-By: PolyLang
+const XRedirectBy = "X-Redirect-By"
+
+// X-UA-Compatible
+//
+// Recommends the preferred rendering engine (often a backward-compatibility mode) to use to display the content.
+// Also used to activate Chrome Frame in Internet Explorer. In HTML Standard, only the IE=edge value is defined.
+//
+// Class: Response field, Non-standard
+//
+// Example:
+//
+//	X-UA-Compatible: IE=edge
+//	X-UA-Compatible: IE=EmulateIE7
+//	X-UA-Compatible: Chrome=1
+const XUACompatible = "X-UA-Compatible"
+
+// X-XSS-Protection
+//
+// Cross-site scripting (XSS) filter.
+//
+// Class: Response field, Non-standard
+//
+// Example:
+//
+//	X-XSS-Protection: 1; mode=block
+const XXssProtection = "X-XSS-Protection"
