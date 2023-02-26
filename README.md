@@ -6,6 +6,12 @@
 [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](https://opensource.org/licenses/MIT)
 [![GoVersion](https://img.shields.io/github/go-mod/go-version/cmstar/go-httplib)](https://github.com/cmstar/go-httplib/blob/main/go.mod)
 
+## Features
+
+- Build HTTP request in an easy way.
+- The `headers` package provides HTTP header constants.
+- Shortcut methods for reading string/binary body directly from an URL.
+
 ## Install
 
 ```bash
