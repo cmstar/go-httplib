@@ -5,6 +5,7 @@
 [![codecov](https://codecov.io/gh/cmstar/go-httplib/branch/master/graph/badge.svg)](https://codecov.io/gh/cmstar/go-httplib)
 [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)](https://opensource.org/licenses/MIT)
 [![GoVersion](https://img.shields.io/github/go-mod/go-version/cmstar/go-httplib)](https://github.com/cmstar/go-httplib/blob/main/go.mod)
+[![Go Report Card](https://goreportcard.com/badge/github.com/cmstar/go-httplib)](https://goreportcard.com/report/github.com/cmstar/go-httplib)
 
 ## Features
 
