@@ -199,11 +199,19 @@ func (x *RequestBuilder) Do() (*http.Response, error) {
 // it returns the whole response body as a slice of byte; otherwise returns an error.
 //
 // If you need to get the body when the status code is not 200 OK, call Do().
-func (x *RequestBuilder) ReadBinary() ([]byte, error) {
+func (x *RequestBuilder) ReadBinary() (data []byte, err error) {
 	res, err := x.Do()
 	if err != nil {
 		return nil, err
 	}
+
+	defer func() {
+		e := res.Body.Close()
+		if err == nil {
+			err = e
+		}
+		// Drop e if err is not nil.
+	}()
 
 	if res.StatusCode != http.StatusOK {
 		return nil, errors.New(res.Status)
